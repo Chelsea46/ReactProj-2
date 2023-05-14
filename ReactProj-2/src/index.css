@@ -1,0 +1,15 @@
+.card{
+  background-color:blue;
+
+  max-height: 200px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 2em;
+  border-radius: 8px;
+}
+
+.card-container{
+  display: flex;
+ flex-direction: row;
+ justify-content: space-between;
+}
