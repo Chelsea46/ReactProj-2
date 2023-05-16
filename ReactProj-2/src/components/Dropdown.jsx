@@ -1,12 +1,13 @@
 
-export default function Dropdown({users}){
+export default function Dropdown({users, handleDrop}){
     return(
         <>
-             <select id = "dropdown">
+             <select id = "dropdown" onChange={handleDrop}>
                 {users.map((user) => {
-                    console.log(user.address.city)
                     return(
-                            <option key={user.id} value="{user.address.city}">{user.address.city}</option>
+                            <option key={user.id} value={user.address.city}>
+                                {user.address.city}
+                            </option>
                             )
                         })}
             </select>      
