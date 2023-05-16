@@ -1,17 +1,21 @@
-import { useParams }from 'react-router-dom'
+import { Link, useParams} from "react-router-dom"
 
-export default function Card( {users}){
-    const {id} = useParams()
+
+export default function Card( {users, list}){
+    if(list.length > 0){    
     return(
-     <div>
-        {users.map(function (user)  {
+     <>
+        {list.map((user) => {
             return(
-                <div className='card' key={user.id}>
-                    <h2>{user.name}</h2>
-                    <p><strong>City:</strong> {user.address.city}</p>
-                </div>
+                <Link to={`/user/${user.id}`} key={user.id}>
+                    <div className='card'>
+                        <h2>{user.name}</h2>
+                        <p><strong>City:</strong> {user.address.city}</p>
+                    </div>
+                </Link>
             )
         })}
-     </div>
+     </>
     )
-}
+    }
+} 

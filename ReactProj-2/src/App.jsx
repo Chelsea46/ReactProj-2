@@ -1,30 +1,39 @@
 import { useState, useEffect } from 'react'
-import { Link, Route, Routes } from 'react-router-dom'
-import Show from './pages/Show.jsx'
-import Card from './components/Card.jsx'
+import { Route, Routes } from 'react-router-dom'
+import Home from './pages/Home.jsx'
+import User from './pages/User.jsx'
+import SearchBar from './components/SearchBar.jsx'
+import Dropdown from './components/Dropdown.jsx'
 import './App.css'
 
 function App() {
+  // API call
+  const [users, setUsers] = useState([])
+  useEffect(() =>{
+      fetch('https://jsonplaceholder.typicode.com/users')
+      .then(res => res.json())
+      .then(data => setUsers(data))
+  }, [])
 
-  const [users, setUsers] = useState(null)
-    useEffect(() =>{
-        fetch('https://jsonplaceholder.typicode.com/users')
-        .then(res => res.json())
-        .then(data => setUsers(data))
-    }, [])
+  // handle search from searchbar
+  const [searchTerm, setSearchTerm] = useState('')
+  // callback handler for searchbar
+  function handleSearch(e){
+    setSearchTerm(e.target.value)
+    console.log(searchTerm)
+}
+
+const searched = users.filter((user)=>{
+  return user.name.toLowerCase().includes(searchTerm.toLowerCase())
+})
 
   return (
-    <>
-    <nav>
-      <ul>
-        <li><Link to="/show">Show</Link></li>
-      </ul>
-    </nav>
-    <div className='card-container'>
-       {users && <Card users={users}/>}
-      </div>
+    <> 
+    <SearchBar search={searchTerm} handleSearch={handleSearch}/>
+    <Dropdown users = {users}/>
     <Routes>
-      <Route path ="/show/" element={<Show/>}/>
+     <Route path="/" element={<Home users={users} list={searched}/>}/>
+     <Route path='/user/:id' element={<User users={users}/>}/> 
     </Routes>
    </>
   )
