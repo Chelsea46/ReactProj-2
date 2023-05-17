@@ -26,8 +26,11 @@ function handleDrop(e){
   // console.log(dropdown)
   const searchCity = users.find((user) => user.address.city === e.target.value)
   setDropdown(searchCity.address.city)
-  console.log(dropdown)
 }
+
+const selected = users.filter((user) => {
+  return user.address.city == dropdown
+})
 
 const searched = users.filter((user)=>{
   return user.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -37,6 +40,7 @@ const searched = users.filter((user)=>{
     <> 
     <Routes>
      <Route path="/" element={<Home users={users}
+        selected={selected}
         list={searched}
         search={searchTerm}
         handleSearch={handleSearch}
