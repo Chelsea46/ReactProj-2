@@ -1,5 +1,11 @@
+import { useContext } from "react"
+import { UserContext } from "../contexts/UserContext";
 
-export default function SearchBar({handleSearch, search}){
+
+export default function SearchBar(){
+
+    const {search, handleSearch} = useContext(UserContext)
+
     return(
         <>
             <label htmlFor="search">

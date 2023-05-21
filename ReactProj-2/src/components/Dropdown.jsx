@@ -1,5 +1,10 @@
+import { useContext } from "react"
+import { UserContext } from "../contexts/UserContext";
 
-export default function Dropdown({users, handleDrop}){
+export default function Dropdown(){
+
+    const {users, handleDrop} = useContext(UserContext)
+
     return(
         <>
              <select id = "dropdown" onChange={handleDrop}>

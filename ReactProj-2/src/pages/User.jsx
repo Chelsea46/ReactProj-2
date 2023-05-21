@@ -1,6 +1,12 @@
 import { useParams } from "react-router-dom"
+import { useContext } from "react"
+import { UserContext } from "../contexts/UserContext";
 
-export default function User({users}){
+
+export default function User(){
+
+    const {users} = useContext(UserContext)
+
     const {id} = useParams()
     const intId = parseInt(id)
 
