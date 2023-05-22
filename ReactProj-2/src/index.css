@@ -55,3 +55,17 @@ select{
   background-color: #F7F8FA;
   font-size: 1em;
 }
+
+form{
+  display: flex;
+  flex-direction: column;
+  width: 34%;
+}
+
+.form-btn{
+  align-self: center;
+  width: 28%;
+  padding: 0.5em;
+  border-radius: 8px;
+  font-weight: 600;
+}
