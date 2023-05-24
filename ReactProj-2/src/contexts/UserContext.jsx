@@ -1,11 +1,12 @@
 import {useState, useEffect, createContext} from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from "react-router-dom"
+
 
 export const UserContext = createContext()
 
 function UserContextProvider(props){
   
-  const navigate = useNavigate();
+ 
       // API call
   const [users, setUsers] = useState([])
   useEffect(() =>{
@@ -44,7 +45,7 @@ const [formData, setFormData] = useState({
   name: '',
   website: ''}
 )
- console.log(users)
+ 
 const [formError, setFormError] = useState({
   nameError: false,
   cityError: false,
@@ -53,74 +54,104 @@ const [formError, setFormError] = useState({
 })
 
 // handle change
-function handleChange(e){
-  setFormData(prevFormData => {
-      return {
-          ...prevFormData,
-          [e.target.name]: e.target.value
+function handleChange(e) {
+  const { name, value } = e.target;
+  if (name === 'name') {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      name: value
+    }));
+  } else if (name === 'address.city') {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      address: {
+        ...prevFormData.address,
+        city: value
       }
-  })
-}
-
-// handle submit
-const isValid = formData.name != '' && formData.address.city != '' && formData.website != '' && formData.company.name != '';
-
-// update users
-const updateUsers = (data) => {
-  setUsers([
-    ...users,
-    {
-      name: data.name,
-      city: data.address.city,
-      website : data.website,
-      company: data.company.name
-    }
-  ])
-}
-
-function handleSubmit(event){
-  event.preventDefault()
-  const errors = {
-      name: false,
-      city: false,
-      website: false,
-      company: false
+    }));
+  } else if (name === 'website') {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      website: value
+    }));
+  } else if (name === 'company.name') {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      company: {
+        ...prevFormData.company,
+        name: value
+      }
+    }));
   }
-  if(isValid){
-      updateUsers(formData)
-      setFormData({address:{city:''}, company:{name:''}, name:'', website:''})
-      navigate("/")
-  } if(formData.name === ''){
-    errors.name = true
-  }if(formData.address.city === ''){
-      errors.city = true
-  }if(formData.website === ''){
-      errors.website = true
-  }if(formData.company.name === ''){
-      errors.company = true
-  }else{
-      setFormError(prevState => {
-          return{
-          ...prevState,
-          nameError: false,
-          cityError: false,
-          websiteError: false,
-          companyError:false,
+}
+
+
+// FORM FUNCTIONS FOR BOTH ADD AND EDIT USER
+
+const {id} = useParams()
+    const intId = parseInt(id)
+
+    const navigate = useNavigate();
+    
+    const updateUsers = (data) => {
+        setUsers([
+          ...users,
+          {
+             id: users.length +1,
+            name: data.name,
+            address:{city: data.address.city},
+            website : data.website,
+            company:{name: data.company.name}
           }
-      })
-  }
-  setFormError(prevState => {
-      return {...prevState,
-          nameError: errors.name,
-          cityError: errors.city,
-          websiteError: errors.website,
-          companyError: errors.company,
+        ])
       }
-  });
-}
 
-const value = {users, selected, searchTerm, searched, handleSearch, handleDrop, handleSubmit, formData, formError, handleChange}
+      const isValid = formData.name != '' && formData.address.city != '' && formData.website != '' && formData.company.name != '';
 
+      function handleSubmit(event){
+        event.preventDefault()
+        const errors = {
+            name: false,
+            city: false,
+            website: false,
+            company: false
+        }
+        if(isValid){
+            updateUsers(formData)
+            setFormData({address:{city:''}, company:{name:''}, name:'', website:''})
+            navigate("/")
+        } if(formData.name === ''){
+          errors.name = true
+        }if(formData.address.city === ''){
+            errors.city = true
+        }if(formData.website === ''){
+            errors.website = true
+        }if(formData.company.name === ''){
+            errors.company = true
+        }else{
+            setFormError(prevState => {
+                return{
+                ...prevState,
+                nameError: false,
+                cityError: false,
+                websiteError: false,
+                companyError:false,
+                }
+            })
+        }
+        setFormError(prevState => {
+            return {...prevState,
+                nameError: errors.name,
+                cityError: errors.city,
+                websiteError: errors.website,
+                companyError: errors.company,
+            }
+        });
+      }
+
+
+
+const value = {setFormError, handleSubmit, setUsers, users, selected, searchTerm, searched, handleSearch, handleDrop, setFormData, formData, formError, handleChange}
     return(
         <UserContext.Provider value={value}>
             {props.children}
