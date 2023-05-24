@@ -50,6 +50,7 @@ export default function EditUser(){
     }
 
     const editUserUpdate = (data) =>{
+        console.log(data)
     setUsers([
         ...users,
         {
@@ -65,7 +66,7 @@ export default function EditUser(){
     function handleUpdate(){
         editUserUpdate(editFormData)
         setEditFormData({address:{city:''}, company:{name:''}, name:'', website:''})
-        navigate("/")
+        // navigate("/")
     }
 
     const filteredUsers = users.filter(user => { 
@@ -79,7 +80,7 @@ export default function EditUser(){
         <input type="text" name='address.city' placeholder={filteredUsers[0].address.city} value = {editFormData.address.city} onChange={editFormChange}/>
         <input type="text" name="website" placeholder={filteredUsers[0].website} value = {editFormData.website} onChange={editFormChange} />
         <input type="text" name='company.name' placeholder={filteredUsers[0].company.name} value = {editFormData.company.name} onChange={editFormChange} />
-        <Link to='/'><button className="form-btn">Add User</button> </Link>
+        <button className="form-btn">Add User</button>
        
     </form>
        )
