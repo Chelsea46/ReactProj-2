@@ -25,13 +25,18 @@ export default function Card(){
      <>
         {searched.length > 0 && filteredUsers.map((user) => {
             return(
-                
+                <>
                      <div className='card' key={user.id}>
-                        <Link to={`/user/${user.id}`}> <h2>{user.name}</h2> </Link>
-                        <p><strong>City:</strong> {user.address.city}</p>
-                        <Link to={`/edituser/${user.id}`}> <button>Edit</button> </Link>
-                        <button onClick={() => removeUser(user.id)}>Delete</button>
+                        <div className="card-content">
+                            <Link to={`/user/${user.id}`}> <h2>{user.name}</h2> </Link>
+                            <p><strong>City:</strong> {user.address.city}</p>
+                            <div className="btn-container">
+                                <Link to={`/edituser/${user.id}`}> <button className="edit-btn">Edit</button> </Link>
+                                <button className="delete-btn" onClick={() => removeUser(user.id)}>Delete</button>
+                            </div>
+                        </div>
                     </div>
+                </>
             ) 
         })}
      </>
