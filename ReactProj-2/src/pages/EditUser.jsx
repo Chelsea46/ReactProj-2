@@ -1,6 +1,7 @@
 import { useContext, useState} from "react"
 import {UserContext} from "../contexts/UserContext"
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams, useNavigate, Link} from "react-router-dom"
+
 
 export default function EditUser(){
 
@@ -83,13 +84,17 @@ export default function EditUser(){
 
     if(filteredUsers.length > 0){
     return(
-        <form onSubmit={handleUpdate}>
-        <input type="text" name="name" placeholder={filteredUsers[0].name} value = {editFormData.name} onChange={editFormChange}/>
-        <input type="text" name='address.city' placeholder={filteredUsers[0].address.city} value = {editFormData.address.city} onChange={editFormChange}/>
-        <input type="text" name="website" placeholder={filteredUsers[0].website} value = {editFormData.website} onChange={editFormChange} />
-        <input type="text" name='company.name' placeholder={filteredUsers[0].company.name} value = {editFormData.company.name} onChange={editFormChange} />
-        <button className="form-btn">Edit</button>
-    </form>
+      <div className="form-container">
+        <h1>Edit {filteredUsers[0].name}</h1>
+          <form onSubmit={handleUpdate}>
+          <input type="text" name="name" placeholder={filteredUsers[0].name} value = {editFormData.name} onChange={editFormChange}/>
+          <input type="text" name='address.city' placeholder={filteredUsers[0].address.city} value = {editFormData.address.city} onChange={editFormChange}/>
+          <input type="text" name="website" placeholder={filteredUsers[0].website} value = {editFormData.website} onChange={editFormChange} />
+          <input type="text" name='company.name' placeholder={filteredUsers[0].company.name} value = {editFormData.company.name} onChange={editFormChange} />
+          <button className="form-btn">Edit</button>
+          </form>
+         <Link to='/'> <p className="navigate">Go back</p></Link>
+    </div>
        )
     }
 }
